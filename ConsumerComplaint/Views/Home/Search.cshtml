@@ -1,0 +1,263 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<ConsumerComplaint.Models.ComplaintViewModel>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consumer Complaint Database - Search Complaints</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!-- Font Awesome for icons -->
+
+    <style>
+        /* Resetting some default browser styles */
+        body, h1, h2, h3, p {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f6f8;
+            color: #3a3a3a;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+            color: #e0e0e0;
+            padding: 30px 0;
+            text-align: center;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px 0;
+            background-color: #fff;
+            box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.08);
+        }
+
+            nav a {
+                color: #5a5a5a;
+                padding: 0 10px;
+                text-decoration: none;
+                font-weight: 500;
+                transition: color 0.3s;
+            }
+
+                nav a:hover {
+                    color: #333;
+                }
+
+        .main-content {
+            flex: 1;
+            padding: 10px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .search-form {
+            max-width: 500px;
+            margin: 20px auto 40px auto;
+        }
+
+        .search-bar {
+            display: flex;
+            border: 1px solid #ccc;
+            border-radius: 50px;
+            overflow: hidden;
+            background-color: #fff;
+        }
+
+            .search-bar input {
+                flex: 1;
+                padding: 15px 20px;
+                border: none;
+                font-size: 1em;
+                outline: none;
+            }
+
+            .search-bar button {
+                padding: 15px 20px;
+                border: none;
+                background-color: #007bff;
+                color: #fff;
+                cursor: pointer;
+                border-radius: 0 50px 50px 0;
+                transition: background-color 0.3s;
+            }
+
+                .search-bar button:hover {
+                    background-color: #0056b3;
+                }
+
+        /* Table Styles */
+        table {
+            max-width: 800px;
+            margin: 40px auto;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+            table th, table td {
+                border: 1px solid #ccc;
+                padding: 10px 15px;
+            }
+
+            table th {
+                background-color: #f4f6f8;
+                color: #333;
+            }
+
+        /* Action buttons */
+        button, .action-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            outline: none;
+        }
+
+        .search-bar button {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+            .search-bar button:hover {
+                background-color: #0056b3;
+                transform: scale(1.05); /* Slightly enlarges the button */
+                box-shadow: 3px 3px 15px rgba(0, 56, 179, 0.2);
+            }
+
+        .action-btn {
+            padding: 7px 10px;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s;
+            border-radius: 4px;
+        }
+
+            .action-btn.edit {
+                background-color: #4CAF50;
+                color: white;
+                margin-right: 10px; /* Space between the buttons */
+                margin-bottom: 10px;
+            }
+
+                .action-btn.edit:hover {
+                    transform: translateY(-2px) scale(1.1);
+                }
+
+                .action-btn.edit:before {
+                    content: "\f044"; /* Font Awesome Edit Icon */
+                    font-family: "Font Awesome 5 Free";
+                    padding-right: 5px;
+                    font-weight: 900;
+                }
+
+            .action-btn.delete {
+                background-color: #f44336;
+                color: white;
+            }
+
+                .action-btn.delete:hover {
+                    transform: translateY(-2px) scale(1.1);
+                }
+
+                .action-btn.delete:before {
+                    content: "\f2ed"; /* Font Awesome Trash Alt Icon */
+                    font-family: "Font Awesome 5 Free";
+                    padding-right: 5px;
+                    font-weight: 900;
+                }
+
+        footer {
+            background-color: #1a1a2e;
+            color: #e0e0e0;
+            text-align: center;
+            padding: 30px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Consumer Complaint Database</h1>
+    </header>
+
+    <nav>
+        <a asp-action="Index">Home</a>
+        <a asp-action="LoadDataFromApi">Load Data From API</a>
+        <a asp-action="Search">Search Complaints</a>
+        <a asp-action="Add">Submit a Complaint</a>
+        <a asp-action="aboutus">About Us</a>
+        <a asp-action="graph">Graph</a>
+    </nav>
+
+    <div class="main-content">
+        <h2>Search Complaints by Keyword</h2>
+        <p>Enter Issue Keyword to search complaints.</p>
+        <form asp-action="SearchCompany">
+
+            <div class="search-form">
+            <div class="search-bar">
+                    <input type="text" name="companyInput" placeholder="Search complaints...">
+                    <button type="submit">Search</button>
+            </div>
+        </div>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date Received</th>
+                    <th>Product</th>
+                    <th>Issue</th>
+                    <th>Company</th>
+                    <th>Action</th> <!-- New column added -->
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var city in Model)
+                {
+                    <tr>
+                        <td>@city.DateReceived</td>
+                        <td>@city.ProductName</td>
+                        <td>@city.IssueDescription</td>
+                        <td>@city.CompanyName</td>
+                        <td class="action-btns">
+                            <a class="btn-gradient btn-edit" asp-action="Edit" asp-route-id="@city.ComplaintID">Edit <i class="fas fa-pencil-alt"></i></a>
+                            <a class="btn-gradient btn-delete" asp-action="Delete" asp-route-id="@city.ComplaintID">Delete <i class="fas fa-trash"></i></a>
+                        </td>
+                    </tr>
+                }
+
+                <!-- Add more rows as necessary -->
+            </tbody>
+        </table>
+
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var successMessage = '@TempData["SuccessMessage"]';
+            
+            if (successMessage) {
+                alert(successMessage);
+            }
+
+        });
+    </script>
+    <footer>
+        &copy; 2023 Consumer Complaint Database | Follow us on: [Social Icons Here]
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,193 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model ConsumerComplaint.Models.Complaint
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consumer Complaint Database - Submit a Complaint</title>
+    <style>
+        /* Resetting some default browser styles */
+        body, h1, h2, h3, p, label, input, textarea {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f6f8;
+            color: #3a3a3a;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+            color: #e0e0e0;
+            padding: 30px 0;
+            text-align: center;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px 0;
+            background-color: #fff;
+            box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.08);
+        }
+
+            nav a {
+                color: #5a5a5a;
+                padding: 0 10px;
+                text-decoration: none;
+                font-weight: 500;
+                transition: color 0.3s;
+            }
+
+                nav a:hover {
+                    color: #333;
+                }
+
+        .banner {
+            flex: 1;
+            background-color: #f4f6f8;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .submit-form {
+            max-width: 450px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .field {
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+            .field input, .field textarea {
+                width: 100%;
+                border: 1px solid #ccc;
+                padding: 20px;
+                border-radius: 5px;
+                background-color: #f4f6f8;
+                transition: 0.3s;
+                font-size: 16px;
+            }
+
+            .field label {
+                position: absolute;
+                left: 20px;
+                top: 50%;
+                transform: translateY(-50%);
+                background-color: #fff;
+                padding: 0 10px;
+                transition: 0.3s;
+            }
+
+            .field input:focus + label, .field textarea:focus + label,
+            .field input:valid + label, .field textarea:valid + label {
+                top: -15px;
+                font-size: 12px;
+                color: #007bff;
+            }
+
+        .submit-form button {
+            width: 100%;
+            padding: 15px 0;
+            border: none;
+            border-radius: 6px;
+            background-image: linear-gradient(45deg, #3498db, #8e44ad);
+            font-size: 18px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+            .submit-form button:before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(255, 255, 255, 0.1);
+                transition: all 0.3s;
+                pointer-events: none;
+                z-index: -1;
+            }
+
+            .submit-form button:hover {
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+                transform: translateY(-3px);
+                background: linear-gradient(45deg, #3a7bd5, #9b59b6);
+            }
+
+                .submit-form button:hover:before {
+                    left: 100%;
+                }
+
+
+        footer {
+            background-color: #1a1a2e;
+            color: #e0e0e0;
+            text-align: center;
+            padding: 30px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Consumer Complaint Database</h1>
+    </header>
+
+    <nav>
+        <a asp-action="Index">Home</a>
+        <a asp-action="LoadDataFromApi">Load Data From API</a>
+        <a asp-action="Search">Search Complaints</a>
+        <a asp-action="Add">Submit a Complaint</a>
+        <a asp-action="aboutus">About Us</a>
+        <a asp-action="graph">Graph</a>
+    </nav>
+
+    <div class="banner">
+        <div class="submit-form">
+            <form asp-action="Edit" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="ComplaintID" />
+                <input type="hidden" asp-for="ProductID" />
+                <input type="hidden" asp-for="DateReceived" />
+                
+
+                <div class="form-group">
+                    <label asp-for="IssueDescription">IssueDescription:</label>
+                    <input asp-for="IssueDescription" style="width: 100%; height: 50px" required>
+                    <span asp-validation-for="IssueDescription" class="text-danger"></span>
+                </div>
+
+                
+                <button type="submit" class="btn btn-gradient">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2023 Consumer Complaint Database | Follow us on: [Social Icons Here]
+    </footer>
+</body>
+
+</html>

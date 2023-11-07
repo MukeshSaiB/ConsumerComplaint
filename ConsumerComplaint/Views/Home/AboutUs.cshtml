@@ -1,0 +1,241 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <style>
+        body, h1, h2, h3, p {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f6f8;
+            color: #3a3a3a;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+            color: #e0e0e0;
+            padding: 30px 0;
+            text-align: center;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px 0;
+            background-color: #fff;
+            box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.08);
+        }
+
+            nav a {
+                color: #5a5a5a;
+                padding: 0 10px;
+                text-decoration: none;
+                font-weight: 500;
+                transition: color 0.3s;
+            }
+
+                nav a:hover {
+                    color: #333;
+                    transform: translateY(-2px);
+                }
+
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            perspective: 1500px; /* Enables 3D space for children */
+        }
+
+        .image-card {
+            flex-basis: calc(25% - 20px);
+            margin: 10px;
+            text-align: center;
+            box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            background-color: #fff;
+            padding: 15px;
+            transform-style: preserve-3d; /* Enables 3D transformations for children */
+            transition: transform 0.6s;
+        }
+
+            .image-card:hover {
+                transform: rotateY(180deg);
+            }
+
+            .image-card img {
+                width: 70%;
+                max-height: 250px;
+                object-fit: cover;
+                border-radius: 50%;
+                margin-bottom: 10px;
+                backface-visibility: hidden; /* Hides the back face of the element on 3D transformations */
+            }
+
+            .image-card h3, .image-card p {
+                backface-visibility: hidden; /* Hides the back face of the element on 3D transformations */
+            }
+
+            .image-card .description {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) rotateY(180deg);
+                backface-visibility: hidden; /* Hides the front face when the card is flipped */
+            }
+
+        footer {
+            background-color: #1a1a2e;
+            color: #e0e0e0;
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            margin: 5% auto;
+            width: 80%;
+            max-width: 800px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            color: white;
+        }
+
+        /* Redesigned button */
+        .view-erd-btn {
+            background-color: #1a1a2e;
+            width: 300px;
+            color: #e0e0e0;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 20px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+            .view-erd-btn:hover {
+                background-color: #3a3a3a;
+            }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <header>
+        <h1>About Our Team</h1>
+    </header>
+
+    <nav>
+        <a asp-action="Index">Home</a>
+        <a asp-action="LoadDataFromApi">Load Data From API</a>
+        <a asp-action="Search">Search Complaints</a>
+        <a asp-action="Add">Submit a Complaint</a>
+        <a asp-action="aboutus">About Us</a>
+        <a asp-action="graph">Graph</a>
+    </nav>
+    <!-- GitHub Button -->
+
+    <div class="button-container">
+        <button class="view-erd-btn" onclick="openERDModal()">View ERD Data Model</button>
+        <a href="https://github.com/MukeshSaiB/Group_10_Assignment_LookAndFeel.git" class="view-erd-btn" target="_blank">
+            View on GitHub
+        </a>
+    </div>
+
+    <div class="main-content">
+
+        <div class="image-card">
+            <img src="~/img/1.jpg" alt="Name of Person 1">
+            <h3>Sandeep Surasani</h3>
+            <p class="description">I'm Surasani Sandeep, a committed student at the University of South Florida, and I'm now learning about information systems and business analytics. My enthusiasm for comprehending how data affects how firms operate has led me to navigate the complexities of data analytics. </p>
+        </div>
+        <div class="image-card">
+            <img src="~/img/2.jpg" alt="Name of Person 2">
+            <h3>Mukesh Bodapati</h3>
+            <p class="description">Hello, my name is Mukesh Sai Bodapati. I am currently pursing Master's in Business Analytics and Information Systems. My academic background includes a Bachelor's degree in Petroleum Engineering. After my under graduation, I embarked on a professional journey with L&T Infotech, Mumbai, where I served as a Business Analyst in their Oil & Gas vertical. Over a span of three years in this role, I cultivated a deep interest in the analytical facets of business, which motivated me to pursue my current Master's program.</p>
+        </div>
+        <div class="image-card">
+            <img src="~/img/3.jpg" alt="Name of Person 3">
+            <h3>Sri Satya Sai Manikanta Sayyaparaju</h3>
+            <p class="description">I’m Sri Satya Sai Manikanta Sayyapaju, currently pursuing my Business Analytics graduation at the University of South Florida.Through my journey of learning Data Analytics, I have gained a profound understanding of how data empowers organizations and enables informed decision-making. With expertise in analyzing complex datasets, utilizing programming languages like Python and R, and deriving valuable insights. </p>
+        </div>
+        <div class="image-card">
+            <img src="~/img/4.jpg" alt="Name of Person 4">
+            <h3>Manohar Cherukuri</h3>
+            <p class="description">I am Manohar Cherukuri, a current Master's student in Business Analytics and Information Systems at the University of South Florida. With a Bachelor's degree in Applied Petroleum Engineering from the University of Petroleum & Energy Studies in Dehradun, India, and four years of professional experience as a Business Analyst at Larsen & Toubro Infotech Ltd.</p>
+        </div>
+
+
+        <!-- Modal for ERD Data Model -->
+        <div class="modal" id="erdModal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeERDModal()">&times;</span>
+                <h2>ERD Data Model</h2>
+                <img src="~/img/DataModel.png" alt="ERD Data Model" width="100%">
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        &copy; 2023 Consumer Complaint Database | Follow us on: [Social Icons Here]
+    </footer>
+    <script>
+        function openERDModal() {
+            document.getElementById('erdModal').style.display = 'block';
+        }
+
+        function closeERDModal() {
+            document.getElementById('erdModal').style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>
